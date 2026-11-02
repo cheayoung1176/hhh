@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: aether-doc-parser
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000
+      - key: MAX_UPLOAD_MB
+        value: "50"

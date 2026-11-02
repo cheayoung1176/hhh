@@ -1,0 +1,4 @@
+aether-doc-parser.zip
+aether-doc-parser/out/
+*.docx
+.claude/settings.local.json
