@@ -83,7 +83,9 @@ def heading_style(text: str, size: float, bold: bool, body_size: float, allow_pl
         return "ch:" + m.group(1)
     if ARTICLE_HEAD.match(t) and len(t) <= 60:
         return "article"
-    strong = size >= body_size * 1.05 or bold
+    # 강조된 줄: 굵거나, 본문보다 5% 이상 크거나, 0.4pt 이상 크면.
+    # (Type3 글꼴처럼 굵기 정보가 없는 PDF에서는 0.5pt 정도의 크기 차이가 유일한 단서인 경우가 많다)
+    strong = bold or size >= body_size * 1.05 or size - body_size >= 0.4
     big = size >= body_size * 1.3 and len(t) <= 60
     if strong:
         if ROMAN_HEAD.match(t):

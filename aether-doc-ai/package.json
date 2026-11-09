@@ -1,8 +1,8 @@
 {
   "name": "aether-doc-ai",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Aether Doc AI — MAP v.1 (PDF 요약·질의응답 서비스 시연)",
+  "description": "Aether Doc AI — 기능명세서 Rev.3 구현 (웹)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +11,8 @@
   "dependencies": {
     "next": "^16.3.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.0"
   },
   "engines": {
     "node": ">=20.9.0"

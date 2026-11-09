@@ -41,7 +41,7 @@ export default function Landing() {
         <section className="hero">
           <div className="hero-copy">
             <span className="badge">
-              <Icon name="auto_awesome" fill size={16} /> MAP v.1 공개
+              <Icon name="auto_awesome" fill size={16} /> v2 · 실제 AI 분석
             </span>
             <h1>
               긴 PDF,
@@ -52,16 +52,16 @@ export default function Landing() {
               올리면 요약·목차·키워드가 바로 정리되고, 질문하면 근거가 된 페이지를 형광펜으로 짚어 드립니다.
             </p>
             <div className="hero-cta">
-              <Link href="/workspace?demo=1" className="btn lg">
-                샘플 문서로 바로 체험하기 <Icon name="arrow_forward" />
+              <Link href="/workspace" className="btn lg">
+                무료로 시작하기 <Icon name="arrow_forward" />
               </Link>
               <Link href="/workspace" className="btn lg ghost">
-                <Icon name="upload_file" /> 내 PDF 올리기
+                <Icon name="login" /> 로그인
               </Link>
             </div>
             <ul className="hero-facts">
               <li>
-                <Icon name="check_circle" fill /> 가입 없이 바로 사용
+                <Icon name="check_circle" fill /> 이메일로 1분 가입
               </li>
               <li>
                 <Icon name="check_circle" fill /> PDF 최대 50MB
@@ -146,17 +146,17 @@ export default function Landing() {
         </section>
 
         <section className="cta-band">
-          <h2>지금 샘플 보고서로 직접 확인해 보세요</h2>
-          <p>설치도, 가입도 필요 없어요.</p>
-          <Link href="/workspace?demo=1" className="btn lg light">
-            무료로 체험하기 <Icon name="arrow_forward" />
+          <h2>지금 내 PDF로 직접 확인해 보세요</h2>
+          <p>설치 없이 브라우저에서 바로 쓸 수 있어요.</p>
+          <Link href="/workspace" className="btn lg light">
+            시작하기 <Icon name="arrow_forward" />
           </Link>
         </section>
       </main>
 
       <footer className="lp-ft">
-        <span>© 2026 Aether Doc AI · MAP v.1</span>
-        <span>시연 버전: 실제 PDF 파싱·AI 호출 없이 샘플 분석 결과로 동작합니다.</span>
+        <span>© 2026 Aether Doc AI · v2</span>
+        <span>올린 문서는 요약·답변 생성을 위해 외부 AI 서비스(Google Gemini)로 전달됩니다.</span>
       </footer>
     </div>
   );

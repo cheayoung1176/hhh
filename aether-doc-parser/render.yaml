@@ -3,11 +3,29 @@ services:
     name: aether-doc-parser
     runtime: python
     plan: free
+    region: singapore
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
       - key: ALLOWED_ORIGINS
-        value: http://localhost:3000
+        value: https://hhh-pi-black.vercel.app,http://localhost:3000
       - key: MAX_UPLOAD_MB
         value: "50"
+      - key: CHAT_MODEL
+        value: gemini-3.5-flash-lite
+      - key: CHAT_FALLBACK_MODEL
+        value: gemini-3.1-flash-lite
+      - key: EMBED_MODEL
+        value: gemini-embedding-2
+      - key: EMBED_DIM
+        value: "768"
+      # 아래 3개는 비밀값: Render 화면에서 직접 입력 (GitHub에 올리지 않음)
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false

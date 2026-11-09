@@ -1,55 +1,41 @@
-# Aether Doc AI — MAP v.1
+# Aether Doc AI — 프론트엔드 (Next.js)
 
 > 긴 PDF, 읽기 전에 먼저 물어보세요.
-> PDF를 올리면 요약·목차·키워드가 정리되고, 질문하면 근거가 된 페이지를 형광펜으로 짚어 주는 AI 문서 리더 (시연 버전)
+> 「AI 기반 PDF 문서 분석 및 질의응답 시스템 종합 기능명세서 Rev.3」 기준 구현
 
-- 기술 스택: **Next.js 16 (App Router) · React 19 · JavaScript · CSS**
-- 배포: **Vercel**
+- Next.js 16 (App Router) · React 19 · Zustand 5 · pdf.js 6 (public/pdfjs 에 포함)
+- 백엔드: FastAPI 서버 (`aether-doc-parser`, Render 배포) + Supabase + Gemini
+- 배포: Vercel
 
-## 페이지 구성
+## 화면
 | 경로 | 내용 |
 |---|---|
-| `/` | 랜딩 페이지 (서비스 소개, 기능, 사용 방법, CTA) |
-| `/workspace` | 앱 화면 (문서 목록, 분석, AI 대화, 원문 뷰어) |
-| `/workspace?demo=1` | 샘플 문서를 바로 연 상태로 시작 |
+| `/` | 랜딩 페이지 |
+| `/workspace` | 앱 (S-01 로그인 ~ S-11 대화 기록) |
 
-## MVP → MAP 개선 내역
-| 영역 | MVP | MAP v.1 |
-|---|---|---|
-| 첫인상 | 바로 문서 목록 | **랜딩 페이지** + 앱 첫 방문 **온보딩 카드** ("샘플 문서 열기") |
-| 분석 진행 | 스피너만 표시 | **단계별 진행 바** (텍스트 추출 → 구조 분석 → 요약 생성 → 키워드 추출, %) + 완료 토스트 |
-| 문서 열기 | 즉시 전환 | **스켈레톤 로딩** 후 부드러운 전환 |
-| 요약 | 텍스트 한 덩어리 | AI 요약 + **핵심 포인트 카드 4개** (각각 출처 페이지 칩) |
-| AI 대화 | 텍스트 출력 | 타이핑 표시 → 스트리밍, 아바타, **답변 복사**, 전송 중 버튼 상태 |
-| 출처 확인 | 노란 배경 | **형광펜이 그어지는 애니메이션** + 근거 문단 강조 |
-| 업로드 | + 버튼 | + 버튼 **+ 드래그 앤 드롭** + 업로드 영역 카드 |
-| 빈 상태 | "문서가 없습니다" | 검색 결과 없음 / 문서 없음 화면 분리, **검색어 지우기** 버튼 |
-| 디자인 | 기본 스타일 | Pretendard 서체, 그라데이션 브랜드, 그림자·라운드 통일, 마이크로 인터랙션 |
-| 테마 | 시스템 설정만 | **다크 모드 토글** (선택 저장, 첫 화면 깜빡임 없음) |
-| 데스크톱 | 2단 Split View | Split View 유지 + 목록 2열 그리드 |
-| 마감 | 없음 | **파비콘**, 페이지 제목, **공유 미리보기(OG 이미지)**, ESC로 모달·시트 닫기, 모션 줄이기 설정 존중 |
+- 모바일(≤767px): 하단 탭(홈/내 문서/AI 대화/설정), 상세 화면 상단 탭 [분석][AI 대화][PDF], 근거 바텀시트
+- 태블릿(768–1023px): 상단 탭 + Split View
+- 데스크톱(≥1024px): 왼쪽 사이드바 260px + Split View
 
-## 의도적으로 제외한 것 (MVP와 동일)
-로그인, 실제 PDF 파싱·AI 호출, 대화 히스토리 저장.
-업로드한 파일도 **샘플 분석 결과**로 보여 주며, 화면에 안내 문구가 표시됩니다.
+## 이번 범위에서 뺀 것
+Google·Apple 로그인(이메일 로그인만), iOS/Android 앱 빌드, Phase 1 기능(위젯·캘린더는 설정에 자리만 있음)
+
+## 로그인 토큰 보관 (F-02)
+- Refresh Token: httpOnly · SameSite=Strict 쿠키 `aether_rt` (`/api/session` 라우트가 설정)
+- Access Token: 메모리에만 보관, 401이면 한 번 자동 갱신
+
+## 환경 변수
+`.env.example` 을 `.env.local` 로 복사.
+
+| 이름 | 값 |
+|---|---|
+| `NEXT_PUBLIC_API_URL` | FastAPI 서버 주소 (로컬 `http://127.0.0.1:8000`) |
+| `API_URL` | 같은 값 (서버 쪽 `/api/session` 이 사용) |
 
 ## 로컬 실행
 ```bash
 npm install
-npm run dev     # http://localhost:3000
+npm run dev     # http://localhost:3000/workspace
 npm run build   # 배포 전 빌드 확인
 ```
-
-## Vercel 배포
-1. 이 폴더를 GitHub 저장소에 올립니다.
-   ```bash
-   git init
-   git add .
-   git commit -m "MAP v.1"
-   git branch -M main
-   git remote add origin https://github.com/<아이디>/aether-doc-ai.git
-   git push -u origin main
-   ```
-2. vercel.com → **Add New… → Project** → 저장소 **Import**
-3. Framework Preset이 **Next.js**로 자동 선택된 것을 확인하고 **Deploy**
-4. 발급된 `https://<프로젝트명>.vercel.app` 주소를 제출합니다.
+FastAPI 서버(`uvicorn main:app --reload`)도 같이 켜 두어야 합니다.

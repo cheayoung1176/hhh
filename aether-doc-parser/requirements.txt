@@ -1,4 +1,8 @@
 fastapi>=0.115
 uvicorn[standard]>=0.30
 python-multipart>=0.0.9
-pymupdf>=1.24
+# 2.x 는 onnxruntime 등 큰 패키지를 끌고 와서 Render 무료 서버에서 설치가 느리거나 실패할 수 있어요
+pymupdf>=1.24,<2
+google-genai>=1.0
+python-dotenv>=1.0
+requests>=2.31
